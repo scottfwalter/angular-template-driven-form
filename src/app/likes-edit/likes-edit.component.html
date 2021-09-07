@@ -1,0 +1,85 @@
+<h5><b>{{ model.hero.name || 'Hero' }} likes</b></h5>    
+
+<select [(ngModel)]="selectedUi" 
+  [ngModelOptions]="{standalone: true}"
+  (change)="selectedUiChanged.emit($event.target.value)"
+  >
+  <option value="0">Choose an implementation</option>
+  <option value="1">1. Embedded in the form template</option>
+  <option value="2">2. Embedded in the form template within NgModelGroup</option>
+  <option value="3">3. Sub-Form</option>
+  <option value="4">4. Sub-Form with NgModelGroup</option>
+  <option value="5">5. Three-Deep Nested Sub-Forms with NgModelGroups</option>
+</select>
+
+<!-- Show validation hint only if showing a "Likes" implementation  -->
+<p *ngIf="'0' !== selectedUi" [@ngIfAnim]>
+  <br>
+  <i>Hint: "star wars" is the forbidden like</i>
+</p>
+
+<!-- #region 1. Embedded in the form template  -->
+<div *ngIf="'1' === selectedUi" [@ngIfAnim]>
+
+  <div *ngFor="let like of model.likes" class="like-row"> 
+    <!-- See notes.md for explanation of `[name]=...` --> 
+    <input [(ngModel)]="like.name" [name]="'likeName-' + like.id"  
+      required forbiddenName
+      #name="ngModel" 
+      class="like-row">
+    
+    <button type="button" class="btn btn-danger btn-sm " (click)="removeLike(like)">-</button>
+
+    <app-validation-error [control]="name"></app-validation-error>
+  </div>
+  
+  <button type="button" class="btn btn-sm" (click)="addLike()">Add</button>
+
+</div>
+<!-- endregion -->  
+
+
+<!-- #region 2. Embedded in the form template within NgModelGroup -->
+<div *ngIf="'2' === selectedUi" [@ngIfAnim]>
+  <div ngModelGroup="likes" #likes="ngModelGroup">
+
+    <div *ngFor="let like of model.likes" ngModelGroup={{like.id}}>   
+      <input [(ngModel)]="like.name" name="likeName" class="input-group"
+      required forbiddenName
+      #name="ngModel" 
+      class="like-row">
+          
+      <button type="button" class="btn btn-danger btn-sm " (click)="removeLike(like)">-</button>
+
+      <app-validation-error [control]="name"></app-validation-error>
+    </div>
+
+    <button type="button" class="btn btn-sm" (click)="addLike()">Add</button>
+
+  </div>
+</div>
+<!-- endregion -->  
+
+
+<!-- #region 3. Sub-Form -->
+<div *ngIf="'3' === selectedUi" [@ngIfAnim]>
+  <app-likes-form [likes]="model.likes" (add)="addLike()" (remove)="removeLike($event)">
+  </app-likes-form>
+</div>
+<!-- endregion --> 
+
+
+<!-- #region 4. Sub-Form with NgModelGroup -->
+<div *ngIf="'4' === selectedUi" [@ngIfAnim]>
+  <app-likes-group-form [likes]="model.likes" (add)="addLike()" (remove)="removeLike($event)">
+  </app-likes-group-form>
+</div>
+<!-- endregion -->  
+
+
+<!-- #region 5. Three-Deep Nested Sub-Forms with NgModelGroups -->
+<div *ngIf="'5' === selectedUi" [@ngIfAnim]>
+  <app-likes-nested-form [likes]="model.likes" (add)="addLike()" (remove)="removeLike($event)">
+  </app-likes-nested-form>
+</div>
+<!-- endregion -->  

@@ -1,0 +1,16 @@
+<div *ngFor="let like of likes">
+
+  <input 
+    [(ngModel)]="like.name" 
+    [name]="'likeName-' + like.id"
+    required forbiddenName 
+    #likeName="ngModel" class="like-row">
+
+  <button type="button" (click)="remove.emit(like)" 
+    class="btn btn-danger btn-sm">-</button>
+
+  <app-validation-error [control]="likeName"></app-validation-error>
+    
+</div>
+
+<button type="button" (click)="add.emit()" class="btn btn-sm">Add</button>

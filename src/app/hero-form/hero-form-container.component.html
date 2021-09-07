@@ -1,0 +1,24 @@
+<div class="container">
+  <div *ngIf="editing" [@ngIfAnim]>
+
+    <app-hero-form
+    
+      [vm]="vm$ | async"
+
+      [selectedUi] = "selectedUi$ | async"
+
+      (cancel)="close()"
+      (save)="save($event)"
+      (selectedUiChanged)="updateSelectedUi($event)"
+    >
+    </app-hero-form>
+    
+  </div>
+
+  <div *ngIf="!editing" [@ngIfAnim]>
+    <app-hero-display 
+      [vm]="currentHeroAndLikes$ | async" 
+      (edit)="editing=true">
+    </app-hero-display>
+  </div>
+</div>

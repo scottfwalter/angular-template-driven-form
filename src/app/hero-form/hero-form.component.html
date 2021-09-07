@@ -1,0 +1,50 @@
+<form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+
+  <app-hero-edit-names [hero]="vm.hero"></app-hero-edit-names>
+
+  <app-hero-edit-power [hero]="vm.hero"></app-hero-edit-power>
+
+  <app-hero-edit-qualifier [hero]="vm.hero"></app-hero-edit-qualifier>
+
+  <app-likes-edit 
+    [model]="vm" 
+    [selectedUi]="selectedUi"
+    (selectedUiChanged)="selectedUiChanged.emit($event)"
+  ></app-likes-edit>
+
+  <!-- #region Buttons  -->
+  <div class="fg">
+
+    <button type="submit" [disabled]="!heroForm.valid" class="btn btn-success">Save</button>
+
+    <button type="button" (click)="cancel.emit()" class="btn btn-danger">Cancel</button>
+
+    <button type="button" (click)="addHero()" class="btn">New Hero</button>
+
+    <button type="button" (click)="inspect()"
+    title="Open the browser console to see the form control tree"
+    class="btn btn-warning" 
+    >Inspect</button>
+    
+  </div>
+  <!-- endregion -->
+
+  <!-- #region Form Status -->
+  <div class="fg">
+    <b>Form Status Flags:</b>
+    {{ heroForm.status }},
+    {{ heroForm.touched ? 'touched' : 'untouched'}},
+    {{ heroForm.dirty ? 'dirty' : 'pristine'}}
+  </div>
+
+  <!-- endregion -->
+
+  <!-- #region ViewModel Peek -->
+    <hr>
+    <h5><b>Hero ViewModel Peek</b></h5>
+    <p>Hero: </p><code>{{ vm.hero | json }}</code>
+    <br><br>
+    <p>Likes: </p><code>{{ vm.likes | json }}</code>
+  <!-- endregion -->
+
+</form>

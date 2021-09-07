@@ -1,0 +1,24 @@
+<div ngModelGroup="likesGroupForm" #likesGrp="ngModelGroup">
+
+  <div *ngFor="let like of likes" ngModelGroup={{like.id}}> 
+
+    <input [(ngModel)]="like.name" name="name"
+      required forbiddenName         
+       #name="ngModel" class="like-row">
+
+    <button type="button" class="btn btn-danger btn-sm " (click)="remove.emit(like)">-</button>
+    
+    <app-validation-error [control]="name"></app-validation-error>  
+  </div>
+
+</div>
+
+<button type="button" class="btn btn-sm" (click)="add.emit()">Add</button>
+
+<br><br>
+<p>
+  <i>Likes ngModelGroup Sub-Form Status Flags:</i>
+  {{ likesGrp.status }},
+  {{ likesGrp.touched ? 'touched' : 'untouched'}},
+  {{ likesGrp.dirty ? 'dirty' : 'pristine'}}
+</p>

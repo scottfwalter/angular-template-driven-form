@@ -1,0 +1,17 @@
+<div class="fg">
+  <label>Hero Power
+
+    <select 
+        [(ngModel)]="hero.power" name="power" required
+        (change)="onPowerChange()"
+        #power="ngModel">
+      <option *ngIf="!hero.power" [value]="null">Select a power</option>
+      <option *ngFor="let pow of powers" [value]="pow.name">{{pow.name}}</option>
+    </select>
+
+  </label>
+
+  <div *ngIf="power.invalid && power.touched" class="alert alert-danger">
+    Power is required
+  </div>
+</div>

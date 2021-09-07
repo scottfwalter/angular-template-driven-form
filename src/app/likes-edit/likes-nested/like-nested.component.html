@@ -1,0 +1,15 @@
+<div ngModelGroup={{grpName}} #likeGrp="ngModelGroup">   
+  <input [(ngModel)]="like.name" name="name" required 
+  #name="ngModel" class="like-row">
+
+  <button type="button" class="btn btn-danger btn-sm " (click)="remove.emit(like)">-</button>
+</div>
+
+<app-validation-error [control]="likeGrp"></app-validation-error>
+
+<!-- Simple version
+<div *ngIf="likeGrp.invalid && likeGrp.touched && likeGrp.enabled"  class="alert alert-danger">
+  <span *ngIf="name.errors?.required">The name of the "like" is required</span>
+  <span *ngIf="name.errors?.forbiddenName">No one likes "star wars".</span>
+</div>
+-->

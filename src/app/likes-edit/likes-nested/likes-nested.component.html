@@ -1,0 +1,17 @@
+<div ngModelGroup="likesNestedForm" #likesGrp="ngModelGroup">
+
+  <app-like-nested-form *ngFor="let like of likes" 
+    [like]="like" (remove)="remove.emit($event)">   
+  </app-like-nested-form>
+
+</div>
+
+<button type="button" class="btn btn-sm" (click)="add.emit()">Add</button>
+
+<br><br>
+<p>
+  <i>Likes Nested Forms Status Flags:</i>
+  {{ likesGrp.status }},
+  {{ likesGrp.touched ? 'touched' : 'untouched'}},
+  {{ likesGrp.dirty ? 'dirty' : 'pristine'}}
+</p>

@@ -1,0 +1,50 @@
+<!-- Manage a control (PowerQualifier) that is subordinate to another (Power)-->
+<!-- Two Strategies for delaying required validation of subordinate property
+1. Disable the subordinate control 
+2. Remove the subordinate control
+  -->
+  <div class="fg" >
+    Power Qualifier
+    <!-- 1. If Power is NOT OTHER ([disable] example) -->
+    <div *ngIf="hero.power !== 'Other'" >
+
+      <!-- 
+        The User must pick an available power qualifier (if there are qualifiers).
+        Although qualifier is required, can't pick one until we know the power.
+        So when the power is unknown, disable this required qualifier selector.
+        Note: Angular doesn't validate disabled controls.
+      -->
+
+      <select [(ngModel)]="hero.powerQualifier" name="powerQualifier"
+              [disabled]="!hasQualifiers"
+              required
+              #powerQualifier="ngModel">
+
+        <option *ngIf="!hero.powerQualifier" [value]="null">Select a power qualifier</option>
+        <option *ngFor="let qual of (hero.power | qualifiers)" [value]="qual">{{qual}}</option>
+      </select>
+  
+      <div *ngIf="powerQualifier.invalid && powerQualifier.enabled" 
+        class="alert alert-danger">
+        Power qualifier is required
+      </div>
+    </div>
+  
+  
+    <!-- 2. If Power is OTHER (@ngIf example) -->
+    <div *ngIf="hero.power === 'Other'" class="input-group">
+
+      <!-- Bind free-form input to hero.powerQualifier when the power is "Other" -->
+      <input [(ngModel)]="hero.powerQualifier" name="otherPowerQualifier"
+          placeholder="Describe this hero power"
+          required
+          #other="ngModel"
+          class="other">
+
+      <div *ngIf="other.invalid && other.enabled" 
+        class="alert alert-danger">
+        Description of "other" is required
+      </div>
+
+    </div>
+  </div>
